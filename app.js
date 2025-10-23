@@ -4,20 +4,29 @@ function sortear() {
     let quantidade = parseInt(document.getElementById('quantidade').value);
     let de = parseInt(document.getElementById('de').value);
     let ate = parseInt(document.getElementById('ate').value);
+    let diferencaDeAte = ate - de;
     let numero;
     let numerosSorteados = [];
 
+    // Proteção do campo "Do número", que deve ser inferior ao "Até o número"    
     if (de > ate) {
         alert('O campo "Do número" não deve conter um número maior do que "Até o número"');
         return;
     }
 
+    // Verifica se a quantidade de números escolhidos é igual ou inferior ao intervalo de números entre os campos “Do número” e “Até o número”
+
+    if(quantidade >= (diferencaDeAte + 1)){
+        alert('Defina um intervalo de números maior entre os campos "Do número" e "Até o número"');
+        return;
+    }
+        
     for (i = 0; i < quantidade; i++) {
         numero = gerarNumeroAleatoreo(de, ate);
 
         while (numerosSorteados.includes(numero)) {
             numero = gerarNumeroAleatoreo(de, ate);
-            alert('Tentando obter número inédito');
+           //alert('Tentando obter número inédito');
         }
         numerosSorteados.push(numero);
     }
@@ -25,45 +34,11 @@ function sortear() {
 
     alterarBotao('btn-reiniciar');
     alterarBotao('btn-sortear');
-
-    //alterarStatusDoBotaoReiniciar();
-    //alterarStatusDoBotaoSortear();
 }
 
 function gerarNumeroAleatoreo(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-/*
-function alterarStatusDoBotaoReiniciar() {
-    let btnReiniciar = document.getElementById('btn-reiniciar');
-
-    if (btnReiniciar.classList.contains('container__botao-desabilitado')) {
-        btnReiniciar.classList.remove('container__botao-desabilitado');
-        btnReiniciar.classList.add('container__botao');
-        habilitarBotao(btnReiniciar);
-    } else {
-        btnReiniciar.classList.remove('container__botao');
-        btnReiniciar.classList.add('container__botao-desabilitado');
-        desabilitarBotao(btnReiniciar);
-    }
-}
-
-function alterarStatusDoBotaoSortear() {
-    let btnSortear = document.getElementById('btn-sortear');
-
-    if (btnSortear.classList.contains('container__botao')) {
-        btnSortear.classList.remove('container__botao');
-        btnSortear.classList.add('container__botao-desabilitado');
-        desabilitarBotao(btnSortear);
-    } else {
-        btnSortear.classList.remove('container__botao-desabilitado');
-        btnSortear.classList.add('container__botao');
-        habilitarBotao(btnSortear);
-    }
-}
-
-*/
 
 function alterarStatusBotao(botao, status){
     botao.disabled = status;
@@ -91,12 +66,7 @@ function reiniciar() {
     alterarBotao('btn-reiniciar');
     alterarBotao('btn-sortear');
 
-   // alterarStatusDoBotaoReiniciar();
-   // alterarStatusDoBotaoSortear();
-
-    resultado.value.innerHTML = '<label class="texto__paragrafo">Números sorteados:  nenhum até agora</label>';
-
-    
+    resultado.value.innerHTML = '<label class="texto__paragrafo">Números sorteados:  nenhum até agora</label>';    
 }
 
 
